@@ -6,4 +6,5 @@ func main() {
 	app := application.EssayWordCounter{}
 
 	app.CountEssayWords()
+
 }

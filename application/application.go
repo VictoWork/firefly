@@ -58,20 +58,20 @@ func (e *EssayWordCounter) fetchWebEssayContent(url string, results chan<- strin
 
 	resp, err := client.Get(url) // getting the web content
 	if err != nil {
-		fmt.Printf("Error fetching %s: %v", url, err)
+		fmt.Println("Error fetching"+url+":", err)
 		return
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		fmt.Printf("Error: %s returned status %v", url, resp.StatusCode)
+		fmt.Println("Error: "+url+" returned status: ", resp.StatusCode)
 		return
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Printf("Error reading body from %s: %v", url, err)
+		fmt.Println("Error reading body from "+url+":", err)
 		return
 	}
 
@@ -80,10 +80,8 @@ func (e *EssayWordCounter) fetchWebEssayContent(url string, results chan<- strin
 }
 
 func (e *EssayWordCounter) CountEssayWords() {
+	//Read wordbank and web urls from local files
 	essayLinks = utilities.ReadDataLocal("./resources/endg-urls.txt", true)
-	// essayLinks["https://www.engadget.com/2019/08/25/sony-and-yamaha-sc-1-sociable-cart/"] = true
-	// essayLinks["https://www.engadget.com/2019/08/24/trump-tries-to-overturn-ruling-stopping-him-from-blocking-twitte/"] = true
-
 	wordBank = utilities.ReadDataLocal("./resources/wordBank.txt", false)
 
 	var wg sync.WaitGroup
